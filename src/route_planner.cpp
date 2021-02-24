@@ -35,18 +35,17 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 // - For each node in current_node.neighbors, add the neighbor to open_list and set the node's visited attribute to true.
 
 void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
-  current_node->FindNeighbors();
+    current_node->FindNeighbors();
 
-  for (RouteModel::Node* node: current_node->neighbors){
-    if (node->visited == false){
-      node->parent = current_node;
-      node->h_value = RoutePlanner::CalculateHValue(node);
-      node->g_value = current_node->g_value + node->distance(*current_node);
-      open_list.emplace_back(node);
-      node->visited = true;
+    for (RouteModel::Node* node: current_node->neighbors){
+        if (node->visited == false){
+            node->parent = current_node;
+            node->h_value = RoutePlanner::CalculateHValue(node);
+            node->g_value = current_node->g_value + node->distance(*current_node);
+            open_list.emplace_back(node);
+            node->visited = true;
+        }
     }
-  }
-
 }
 
 
@@ -57,8 +56,24 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Remove that node from the open_list.
 // - Return the pointer.
 
-RouteModel::Node *RoutePlanner::NextNode() {
+bool Compare(RouteModel::Node* n1, RouteModel::Node* n2){
+    float f_1 = n1->h_value + n1->g_value;
+    float f_2 = n2->h_value + n2->g_value;
+    return f_1>f_2;
+}
 
+
+RouteModel::Node *RoutePlanner::NextNode() {
+    std::vector<RouteModel::Node*>* p_open_list;
+    p_open_list = &open_list;
+
+    sort(p_open_list->begin(), p_open_list->end(), Compare);
+
+     //for type also auto bellow
+    RouteModel::Node * lowest_node = open_list.back();
+    open_list.pop_back();
+
+    return lowest_node;
 }
 
 
