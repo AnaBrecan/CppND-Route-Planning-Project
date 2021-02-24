@@ -123,4 +123,20 @@ void RoutePlanner::AStarSearch() {
 
     // TODO: Implement your solution here.
 
+    current_node = start_node;
+    current_node->g_value = 0;
+    current_node->h_value = current_node->distance(*end_node);
+    current_node->visited = true;
+    open_list.emplace_back(current_node);
+
+    while (current_node != end_node){
+        RoutePlanner::AddNeighbors(current_node);
+        current_node = RoutePlanner::NextNode();
+    }
+    std::vector<RouteModel::Node> final_path;
+    final_path = RoutePlanner::ConstructFinalPath(current_node);
+
+    m_Model.path = final_path;
+
+
 }
