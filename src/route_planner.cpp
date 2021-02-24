@@ -100,6 +100,13 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
         distance+= current_node->distance(*(current_node->parent));
         current_node = current_node->parent;
     }
+
+    // the while loop exists when current node is start node
+   // so the start node is not added to the path_found_reversed list
+   // we added below
+
+    path_found_reversed.emplace_back(*current_node);
+    
     while(!path_found_reversed.empty()){
         path_found.emplace_back(path_found_reversed.back());
         path_found_reversed.pop_back();
