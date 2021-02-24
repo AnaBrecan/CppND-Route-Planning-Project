@@ -106,7 +106,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
    // we added below
 
     path_found_reversed.emplace_back(*current_node);
-    
+
     while(!path_found_reversed.empty()){
         path_found.emplace_back(path_found_reversed.back());
         path_found_reversed.pop_back();
@@ -137,9 +137,24 @@ void RoutePlanner::AStarSearch() {
     open_list.emplace_back(current_node);
 
     while (current_node != end_node){
-        RoutePlanner::AddNeighbors(current_node);
-        current_node = RoutePlanner::NextNode();
-    }
+    current_node = RoutePlanner::NextNode();
+    RoutePlanner::AddNeighbors(current_node);
+
+  }
+  // as a second option for the above while we could we could also write the following
+  //commented while loop
+
+  //while (!open_list.empty()){
+
+    //current_node = RoutePlanner::NextNode();
+
+    //if (current_node == end_node){
+      //break;
+    //}
+    //else{
+      //RoutePlanner::AddNeighbors(current_node);
+    //}
+  //}
     std::vector<RouteModel::Node> final_path;
     final_path = RoutePlanner::ConstructFinalPath(current_node);
 
