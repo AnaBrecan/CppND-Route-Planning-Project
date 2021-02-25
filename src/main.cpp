@@ -52,21 +52,25 @@ int main(int argc, const char **argv)
             osm_data = std::move(*data);
     }
 
-    // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
-    // user input for these values using std::cin. Pass the user input to the
-    // RoutePlanner object below in place of 10, 10, 90, 90.
+    // Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
+    // user input for these values. Pass the user input to the RoutePlanner
+    //object below.
 
     float start_x, start_y, end_x, end_y;
-    //std::cout << "Introduce coordinates for the starting and ending point:" << "\n";
-    //std::cin >> start_x >> start_y >> end_x >> end_y;
-    std::cout << "Enter the x-coordinate of the starting point: " << "\n";
-    std::cin >> start_x;
-    std::cout << "Enter the y_coordinate of the starting point: " << "\n";
-    std::cin >> start_y;
-    std::cout << "Enter the x-coordinates of the ending point: " << "\n";
-    std::cin >> end_x;
-    std::cout << "Enter the y-coordinates of the ending point: " << "\n";
-    std::cin >> end_y;
+    bool user_input = true;
+    while(user_input){
+        std::cout << "The coordinates of a point on a map should be bigger than " << 0 << " and smaller than " << 100 << "\n";
+        std::cout << "Enter the x-coordinate of the starting point: " << "\n";
+        std::cin >> start_x;
+        std::cout << "Enter the y_coordinate of the starting point: " << "\n";
+        std::cin >> start_y;
+        std::cout << "Enter the x-coordinates of the ending point: " << "\n";
+        std::cin >> end_x;
+        std::cout << "Enter the y-coordinates of the ending point: " << "\n";
+        std::cin >> end_y;
+        if ((start_x > 0) && (start_x < 100) && (start_y > 0) && (start_y < 100) && (end_x > 0)
+        && (end_x < 100) && (end_y > 0) && (end_y < 100) ) user_input = false;
+    }
 
     // Build Model.
     RouteModel model{osm_data};
